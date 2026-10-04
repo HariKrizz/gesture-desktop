@@ -7,7 +7,14 @@ import pyautogui
 from app.camera.camera import Camera
 from app.hand.gestures import is_pinching
 from app.hand.detector import HandDetector
-from app.config.settings import CAMERA_HEIGHT, CAMERA_WIDTH, WINDOW_NAME
+from app.config.settings import (
+    WINDOW_NAME,
+    CAMERA_WIDTH,
+    CAMERA_HEIGHT,
+    CURSOR_MARGIN_X,
+    CURSOR_MARGIN_Y,
+    CURSOR_SMOOTH_FACTOR,
+)
 
 from app.interactions.drag_manager import DragManager
 from app.mouse.controller import MouseController
@@ -36,8 +43,15 @@ def main():
     cursor_mapper = CursorMapper(
         CAMERA_WIDTH, 
         CAMERA_HEIGHT, 
-        screen_width, 
-        screen_height
+        # screen_width, 
+        # screen_height,
+        desktop_x,
+        desktop_y,
+        desktop_width,
+        desktop_height,
+        margin_x=CURSOR_MARGIN_X,
+        margin_y=CURSOR_MARGIN_Y,
+        smooth_factor=CURSOR_SMOOTH_FACTOR
     )
 
     mouse_controller = MouseController()
@@ -54,6 +68,7 @@ def main():
     while True:
         # Read a frame from the camera
         success, frame = camera.read()
+        height, width, _ = frame.shape
 
         if not success:
             print("Failed to read from camera.")
