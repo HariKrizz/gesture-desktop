@@ -2,8 +2,6 @@ import cv2
 import math
 import time
 
-import pyautogui
-
 from app.camera.camera import Camera
 from app.hand.gestures import is_pinching
 from app.hand.detector import HandDetector
@@ -17,8 +15,9 @@ from app.config.settings import (
 )
 
 from app.interactions.drag_manager import DragManager
-from app.mouse.controller import MouseController
 from app.interactions.cursor import CursorMapper
+from app.mouse.controller import MouseController
+from app.mouse.desktop import Desktop
 
 from app.hand.landmarks import (
     draw_landmarks,
@@ -32,7 +31,9 @@ def main():
     try:
         camera = Camera()
         detector = HandDetector()
-        screen_width, screen_height = pyautogui.size()
+        desktop = Desktop()
+        desktop_x, desktop_y, desktop_width, desktop_height = desktop.get_bounds()
+        desktop.print_info()
     except (RuntimeError, FileNotFoundError) as e:
         print(f"ERROR: {e}")
         return
@@ -45,10 +46,10 @@ def main():
         CAMERA_HEIGHT, 
         # screen_width, 
         # screen_height,
-        desktop_x=0,
-        desktop_y=0,
-        desktop_width=3456,
-        desktop_height=1080,
+        desktop_x,
+        desktop_y,
+        desktop_width,
+        desktop_height,
         margin_x=CURSOR_MARGIN_X,
         margin_y=CURSOR_MARGIN_Y,
         smooth_factor=CURSOR_SMOOTH_FACTOR

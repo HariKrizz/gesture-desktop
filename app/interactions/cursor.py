@@ -42,8 +42,8 @@ class CursorMapper:
         # smoothing factor for cursor movement
         self.smooth_factor = smooth_factor
 
-        self.prev_x = None
-        self.prev_y = None
+        self.previous_x = None
+        self.previous_y = None
 
     def map_position(self, x, y):
 
@@ -71,6 +71,7 @@ class CursorMapper:
             + normalized_y * self.desktop_height
         )
 
+        # Initialize the smoothing variables if they are None
         if self.previous_x is None:
             self.previous_x = desktop_x
             self.previous_y = desktop_y
